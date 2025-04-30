@@ -1,0 +1,26 @@
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+    font-weight: 500;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+  }
+  
+  .btn-group {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .form-label {
+    font-weight: 500;
+  }
+  
+  .table-active {
+    background-color: rgba(0, 123, 255, 0.1) !important;
+  }

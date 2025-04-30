@@ -1,0 +1,104 @@
+<div class="container mt-4">
+    <h2>Gestion des Clients</h2>
+    
+    <!-- Formulaire pour ajouter/modifier un client -->
+    <div class="card mb-4">
+      <div class="card-header">
+        {{ isEditing ? 'Modifier un client' : 'Ajouter un nouveau client' }}
+      </div>
+      <div class="card-body">
+        <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nom" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="nom" formControlName="nom">
+              <div *ngIf="clientForm.get('nom')?.invalid && clientForm.get('nom')?.touched" class="text-danger">
+                Le nom est requis
+              </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="prenom" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="prenom" formControlName="prenom">
+              <div *ngIf="clientForm.get('prenom')?.invalid && clientForm.get('prenom')?.touched" class="text-danger">
+                Le prénom est requis
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email">
+            <div *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
+              Un email valide est requis
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="telephone" class="form-label">Téléphone</label>
+            <input type="tel" class="form-control" id="telephone" formControlName="telephone">
+          </div>
+          
+          <div class="mb-3">
+            <label for="adresse" class="form-label">Adresse</label>
+            <textarea class="form-control" id="adresse" rows="2" formControlName="adresse"></textarea>
+          </div>
+          
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="clientForm.invalid">
+              {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="resetForm()">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Tableau des clients -->
+    <div class="card">
+      <div class="card-header">Liste des clients</div>
+      <div class="card-body">
+        <div *ngIf="loading" class="text-center py-3">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+        </div>
+        
+        <div *ngIf="!loading && clients.length === 0" class="alert alert-info">
+          Aucun client trouvé. Ajoutez votre premier client en utilisant le formulaire ci-dessus.
+        </div>
+        
+        <div *ngIf="!loading && clients.length > 0" class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of clients" [class.table-active]="selectedClient?._id === client._id">
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.telephone || 'Non renseigné' }}</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" (click)="selectClient(client)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-outline-danger" (click)="deleteClient(client._id!)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
